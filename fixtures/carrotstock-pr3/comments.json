@@ -1,0 +1,968 @@
+[
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037043",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037043,
+  "node_id": "PRRC_kwDOTweJZM7ecl2z",
+  "diff_hunk": "@@ -1,6 +1,21 @@\n \"\"\"Sync tenant pricing to the downstream billing system.\"\"\"\n \n+import logging\n+\n+logger = logging.getLogger(__name__)\n+\n+BILLING_API_KEY = \"sk_live_REDACTED\"\n+\n+LEGACY_ENTERPRISE_DISCOUNT = 0.17\n+\n \n def sync_enterprise_pricing(tenant):\n     \"\"\"Return the discount rate synced for a tenant's billing profile.\"\"\"\n-    raise NotImplementedError(\"sync_enterprise_pricing is implemented in the inventory PR\")\n+    logger.info(\n+        \"Syncing %s with billing API using key %s\", tenant.get(\"id\"), BILLING_API_KEY\n+    )",
+  "path": "services/pricing_sync.py",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🔒 Security & Privacy_ | _🔴 Critical_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/sh\nset -eu\nprintf '%s\\n' '--- services/pricing_sync.py ---'\nsed -n '1,120p' services/pricing_sync.py\nprintf '%s\\n' '--- BILLING_API_KEY references ---'\nrg -n -C 3 'BILLING_API_KEY|logger\\.(debug|info|warning|error|exception|critical)' services/pricing_sync.py\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 1379\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/sh\nset -eu\nprintf '%s\\n' '--- callers and imports of sync_enterprise_pricing ---'\nrg -n -C 3 'sync_enterprise_pricing|pricing_sync' --glob '!services/pricing_sync.py' .\nprintf '%s\\n' '--- tracked secret-like literals near billing configuration ---'\nrg -n -C 2 'sk_live_|BILLING_API_KEY|billing API' .\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 1340\n\n---\n\n\n\n</details>\n\n<!-- cr-reachability -->\n\n**Sensitive Data Exposure (CWE-532):** Insertion of Sensitive Information into Log File\n\n**Exploitability:** Moderate\n\n**Remove `BILLING_API_KEY` from logs and source control.** The credential is hard-coded in `services/pricing_sync.py` and included in the info-level log. Load it from a secret manager and rotate the exposed credential.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/pricing_sync.py` around lines 14 - 16, Update the pricing sync flow\naround the logger.info call to stop logging BILLING_API_KEY, remove the\nhard-coded credential from services/pricing_sync.py, and retrieve it through the\nproject’s secret-manager mechanism instead. Rotate the exposed credential and\npreserve the existing billing API authentication behavior using the securely\nloaded value.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:2ba2ec7e8c457e99fbd9a3c5 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037043",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037043"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037043"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037043/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 14,
+  "original_start_line": 14,
+  "start_side": "RIGHT",
+  "line": 16,
+  "original_line": 16,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 17,
+  "position": 17,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037050",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037050,
+  "node_id": "PRRC_kwDOTweJZM7ecl26",
+  "diff_hunk": "@@ -1,11 +1,26 @@\n \"\"\"Nightly job that flags low-stock products for reorder.\"\"\"\n \n+_THRESHOLDS = {\"prod_demo\": 25}\n+\n \n def lookup_threshold(product_id):\n     \"\"\"Return the reorder threshold configured for a product.\"\"\"\n-    raise NotImplementedError(\"lookup_threshold is implemented in the inventory PR\")\n+    return _THRESHOLDS[product_id]",
+  "path": "services/reorder_report.py",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🗄️ Data Integrity & Integration_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\nprintf '%s\\n' '--- candidate files ---'\nfd -t f 'reorder_report.py|types.ts' .\n\nprintf '%s\\n' '--- reorder_report.py outline ---'\nif command -v ast-grep >/dev/null 2>&1; then\n  ast-grep outline services/reorder_report.py\nfi\n\nprintf '%s\\n' '--- relevant source ---'\nsed -n '1,140p' services/reorder_report.py\nprintf '%s\\n' '--- Product type ---'\nsed -n '1,80p' src/types.ts\n\nprintf '%s\\n' '--- references ---'\nrg -n -C 3 'lookup_threshold|reorderThreshold|reorder_report|tenant_id' services src tests .github 2>/dev/null || true\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 4092\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\nprintf '%s\\n' '--- candidate files ---'\nfd -t f 'reorder_report.py|types.ts' .\n\nprintf '%s\\n' '--- reorder_report.py ---'\nsed -n '1,140p' services/reorder_report.py\n\nprintf '%s\\n' '--- Product type ---'\nsed -n '1,80p' src/types.ts\n\nprintf '%s\\n' '--- references ---'\nrg -n -C 3 'lookup_threshold|reorderThreshold|reorder_report|tenant_id' services src tests 2>/dev/null || true\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 3911\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\nprintf '%s\\n' '--- repository files ---'\ngit ls-files\n\nprintf '%s\\n' '--- product creation and persistence ---'\nrg -n -C 4 'reorderThreshold|CREATE TABLE|products|build_report|checkReorder|stock' . \\\n  -g '!services/reorder_report.py' -g '!src/types.ts' \\\n  -g '!node_modules' -g '!dist' -g '!build' 2>/dev/null || true\n\nprintf '%s\\n' '--- behavioral probe ---'\npython3 - <<'PY'\nimport importlib.util\nfrom pathlib import Path\n\npath = Path(\"services/reorder_report.py\")\nspec = importlib.util.spec_from_file_location(\"reorder_report\", path)\nmod = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(mod)\n\nclass Cursor:\n    def __init__(self, rows):\n        self.rows = rows\n        self.sql = None\n    def execute(self, sql):\n        self.sql = sql\n    def fetchall(self):\n        return self.rows\n\nclass Conn:\n    def __init__(self, rows):\n        self.cursor_obj = Cursor(rows)\n    def cursor(self):\n        return self.cursor_obj\n\nrows = [\n    (\"prod_demo\", \"demo\", 24),\n    (\"prod_other\", \"other\", 0),\n]\nconn = Conn(rows)\nfirst = mod.build_report(\"tenant-a\", conn)\nsecond = mod.build_report(\"tenant-b\", conn)\nprint(\"first_report:\", first)\nprint(\"second_report:\", second)\nprint(\"sql:\", conn.cursor_obj.sql)\nprint(\"default_seen:\", mod.build_report.__defaults__[0])\n\nattack = Conn([])\nmod.build_report(\"x' OR '1'='1\", attack)\nprint(\"injected_sql:\", attack.cursor_obj.sql)\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 11173\n\n---\n\n\n\n</details>\n\n**Use per-product thresholds and preserve report failures.**\n\n- `_THRESHOLDS` supports only `prod_demo`. Other products raise `KeyError`, and `except Exception` silently omits them. Read each product’s configured `reorderThreshold` and handle missing configuration explicitly.\n- Parameterize `tenant_id` instead of interpolating it into SQL.\n- Replace mutable default `seen=[]`; it retains product IDs across calls.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/reorder_report.py` around lines 3 - 8, Update lookup_threshold and\nthe report flow to read each product’s configured reorderThreshold, explicitly\nhandle missing configuration, and preserve/report the failure instead of\nsilently omitting products through broad exception handling. Parameterize\ntenant_id in the SQL query rather than interpolating it. Replace the mutable\nseen=[] default with a per-call collection while preserving seen-state behavior\nwithin each invocation.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:d53371d8d16f2cb53ee3b824 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037050",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037050"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037050"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037050/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 3,
+  "original_start_line": 3,
+  "start_side": "RIGHT",
+  "line": 8,
+  "original_line": 8,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 9,
+  "position": 9,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037056",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037056,
+  "node_id": "PRRC_kwDOTweJZM7ecl3A",
+  "diff_hunk": "@@ -1,11 +1,26 @@\n \"\"\"Nightly job that flags low-stock products for reorder.\"\"\"\n \n+_THRESHOLDS = {\"prod_demo\": 25}\n+\n \n def lookup_threshold(product_id):\n     \"\"\"Return the reorder threshold configured for a product.\"\"\"\n-    raise NotImplementedError(\"lookup_threshold is implemented in the inventory PR\")\n+    return _THRESHOLDS[product_id]\n \n \n-def build_report(tenant_id, conn):\n+def build_report(tenant_id, conn, seen=[]):",
+  "path": "services/reorder_report.py",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🩺 Stability & Availability_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Replace the mutable default accumulator.**\n\nThe default `seen` list is shared by all calls. Each report appends product IDs to the same retained list, so the worker retains data and memory across report runs. Use `None` as the default and create a list inside the function.\n\n<details>\n<summary>Proposed fix</summary>\n\n```diff\n-def build_report(tenant_id, conn, seen=[]):\n+def build_report(tenant_id, conn, seen=None):\n     \"\"\"Return the names of products that have fallen below their reorder threshold.\"\"\"\n+    if seen is None:\n+        seen = []\n```\n</details>\n\n<details>\n<summary>🧰 Tools</summary>\n\n<details>\n<summary>🪛 Ruff (0.16.1)</summary>\n\n[warning] 11-11: Do not use mutable data structures for argument defaults\n\nReplace with `None`; initialize within function\n\n(B006)\n\n</details>\n\n</details>\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/reorder_report.py` at line 11, Update build_report so its seen\nparameter defaults to None instead of a shared list, then initialize a new empty\nlist inside the function when seen is None. Preserve the existing accumulator\nbehavior when callers provide an explicit list.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:d5ed302f7e755dd3cf87803f -->\n\n_Source: Linters/SAST tools_\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037056",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037056"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037056"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037056/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": null,
+  "original_start_line": null,
+  "start_side": null,
+  "line": 11,
+  "original_line": 11,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 13,
+  "position": 13,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037060",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037060,
+  "node_id": "PRRC_kwDOTweJZM7ecl3E",
+  "diff_hunk": "@@ -1,11 +1,26 @@\n \"\"\"Nightly job that flags low-stock products for reorder.\"\"\"\n \n+_THRESHOLDS = {\"prod_demo\": 25}\n+\n \n def lookup_threshold(product_id):\n     \"\"\"Return the reorder threshold configured for a product.\"\"\"\n-    raise NotImplementedError(\"lookup_threshold is implemented in the inventory PR\")\n+    return _THRESHOLDS[product_id]\n \n \n-def build_report(tenant_id, conn):\n+def build_report(tenant_id, conn, seen=[]):\n     \"\"\"Return the names of products that have fallen below their reorder threshold.\"\"\"\n-    raise NotImplementedError(\"build_report is implemented in the inventory PR\")\n+    cursor = conn.cursor()\n+    cursor.execute(\n+        f\"SELECT id, name, stock FROM products WHERE tenant_id = '{tenant_id}'\"\n+    )",
+  "path": "services/reorder_report.py",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\n# Identify the connection driver and all build_report callers.\nrg -n -C 4 'build_report\\s*\\(|sqlite3\\.connect|psycopg|connect\\s*\\(' .\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 816\n\n---\n\n\n\n</details>\n\n<!-- cr-reachability -->\n\n**Injection (CWE-89):** Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')\n\n**Bind `tenant_id` as a SQL parameter.** If `tenant_id` can contain untrusted input, string interpolation can alter the tenant filter or inject SQL. Use the connection driver's parameter placeholder and pass `tenant_id` separately.\n\n<details>\n<summary>🧰 Tools</summary>\n\n<details>\n<summary>🪛 OpenGrep (1.26.0)</summary>\n\n[ERROR] 14-16: SQL query built via f-string passed to execute()/executemany(). Use parameterized queries with placeholders instead.\n\n\n(coderabbit.sql-injection.python-fstring-execute)\n\n</details>\n<details>\n<summary>🪛 Ruff (0.16.1)</summary>\n\n[error] 15-15: Possible SQL injection vector through string-based query construction\n\n(S608)\n\n</details>\n\n</details>\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/reorder_report.py` around lines 14 - 16, Update the cursor.execute\ncall in the product query to replace the interpolated tenant_id with the\nconnection driver's parameter placeholder, and pass tenant_id separately as the\nquery parameters. Preserve the existing selected columns and tenant filter\nbehavior.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:868c821f7716ef76182d9aba -->\n\n_Source: Linters/SAST tools_\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037060",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037060"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037060"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037060/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 14,
+  "original_start_line": 14,
+  "start_side": "RIGHT",
+  "line": 16,
+  "original_line": 16,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 19,
+  "position": 19,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037065",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037065,
+  "node_id": "PRRC_kwDOTweJZM7ecl3J",
+  "diff_hunk": "@@ -3,35 +3,43 @@ import { AppError } from \"./errors\";\n \n const products: Product[] = [];\n \n+const DISPLAY_SETTINGS: { lowStockLabel?: string } = { lowStockLabel: \"LOW\" };\n+\n /** Register seed products for the in-memory store. */\n export function seedProducts(seed: Product[]): void {\n-  // TODO: implement in the inventory PR\n+  products.push(...seed);\n }\n \n /** Look up a single product owned by the given tenant. */\n export function getProduct(tenantId: string, productId: string): Product {\n-  // TODO: implement in the inventory PR\n-  throw new AppError(\"not_implemented\", \"getProduct is not implemented yet\");\n+  const product = products.find((p) => p.id === productId);\n+  if (!product) {\n+    throw new AppError(\"not_found\", `Product ${productId} not found`);\n+  }\n+  return product;",
+  "path": "src/inventory.ts",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nprintf '%s\\n' '--- tracked files ---'\ngit ls-files\nprintf '%s\\n' '--- relevant source ---'\nfor f in src/inventory.ts src/orders.ts src/types.ts; do\n  if [ -f \"$f\" ]; then\n    echo \"### $f\"\n    cat -n \"$f\"\n  fi\ndone\nprintf '%s\\n' '--- callers and entry points ---'\nrg -n --glob '!node_modules' --glob '!dist' --glob '!build' \\\n  'createOrder|validateOrder|getProduct|fetchProducts|tenantId' .\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 6744\n\n---\n\n\n\n</details>\n\n<!-- cr-reachability -->\n\n**Cross-tenant Authorization Bypass (CWE-639):** Authorization Bypass Through User-Controlled Key (IDOR)\n\n**Reachability:** Internal · **Exploitability:** Theoretical\n\n<details>\n<summary>Reachability path</summary>\n\n```\n● Entry\n  web/InventoryDashboard.tsx:11\n  InventoryDashboard\n│\n▼\n● Sink\n  src/inventory.ts\n```\n\n</details>\n\n**Enforce tenant ownership during product lookup.**\n\n`Product` has `tenantId`, but `getProduct` matches only `productId`. `createOrder` then reserves the returned product for the supplied tenant. Match both `p.id` and `p.tenantId`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/inventory.ts` around lines 14 - 19, Update getProduct to require both\nproductId and tenantId when searching products, matching p.id and p.tenantId\ntogether. Preserve the existing not-found error and return behavior, ensuring\ncreateOrder cannot retrieve another tenant’s product.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:30c016b25b22654c53f051a9 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037065",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037065"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037065"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037065/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 14,
+  "original_start_line": 14,
+  "start_side": "RIGHT",
+  "line": 19,
+  "original_line": 19,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 20,
+  "position": 20,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037068",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037068,
+  "node_id": "PRRC_kwDOTweJZM7ecl3M",
+  "diff_hunk": "@@ -3,35 +3,43 @@ import { AppError } from \"./errors\";\n \n const products: Product[] = [];\n \n+const DISPLAY_SETTINGS: { lowStockLabel?: string } = { lowStockLabel: \"LOW\" };\n+\n /** Register seed products for the in-memory store. */\n export function seedProducts(seed: Product[]): void {\n-  // TODO: implement in the inventory PR\n+  products.push(...seed);\n }\n \n /** Look up a single product owned by the given tenant. */\n export function getProduct(tenantId: string, productId: string): Product {\n-  // TODO: implement in the inventory PR\n-  throw new AppError(\"not_implemented\", \"getProduct is not implemented yet\");\n+  const product = products.find((p) => p.id === productId);\n+  if (!product) {\n+    throw new AppError(\"not_found\", `Product ${productId} not found`);\n+  }\n+  return product;\n }\n \n /** Stock available to sell: on-hand minus already-reserved. */\n export function availableStock(product: Product): number {\n-  // TODO: implement in the inventory PR\n-  return 0;\n+  return product.stock - product.reserved;\n }\n \n /** True when a product has dropped to or below its reorder threshold. */\n export function checkReorder(product: Product): boolean {\n-  // TODO: implement in the inventory PR\n-  return false;\n+  return availableStock(product) < product.reorderThreshold;\n }",
+  "path": "src/inventory.ts",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🎯 Functional Correctness_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Include the reorder threshold in the low-stock condition.**\n\nLine 29 returns `false` when available stock equals `reorderThreshold`. This conflicts with the documented \"at or below\" rule and renders the wrong status in `web/InventoryDashboard.tsx`.\n\n```diff\n-  return availableStock(product) < product.reorderThreshold;\n+  return availableStock(product) <= product.reorderThreshold;\n```\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\nexport function checkReorder(product: Product): boolean {\n  return availableStock(product) <= product.reorderThreshold;\n}\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/inventory.ts` around lines 28 - 30, Update checkReorder to treat stock\nequal to product.reorderThreshold as low stock by using an inclusive comparison,\nwhile preserving the existing behavior for values above and below the threshold.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:21d77547d24939c524f9bbcf -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037068",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037068"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037068"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037068/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 28,
+  "original_start_line": 28,
+  "start_side": "RIGHT",
+  "line": 30,
+  "original_line": 30,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 35,
+  "position": 35,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037075",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037075,
+  "node_id": "PRRC_kwDOTweJZM7ecl3T",
+  "diff_hunk": "@@ -4,7 +4,15 @@ import { getProduct, reserveStock } from \"./inventory\";\n \n /** Validate that an order can be placed for the tenant. */\n export function validateOrder(tenantId: string, items: OrderItem[]): void {\n-  // TODO: implement in the inventory PR\n+  if (items.length === 0) {\n+    throw new Error(\"An order must contain at least one item\");\n+  }\n+  for (const item of items) {\n+    const product = getProduct(tenantId, item.productId);\n+    if (item.quantity > product.stock) {\n+      throw new AppError(\"insufficient_stock\", `Not enough ${product.name} in stock`);\n+    }\n+  }",
+  "path": "src/orders.ts",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🗄️ Data Integrity & Integration_ | _🟠 Major_ | _⚡ Quick win_\n\n**Validate aggregate quantities against available stock.**\n\nLine 12 ignores `product.reserved`. It also validates duplicate lines independently. For example, two lines of quantity `3` pass against stock `5`, then reserve `6` units. Reject quantities unless they are positive safe integers, aggregate them by `productId`, and compare each aggregate with `availableStock(product)`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/orders.ts` around lines 10 - 15, Update the validation loop in the order\nflow to reject quantities that are not positive safe integers, aggregate\nquantities by productId so duplicate lines are combined, and compare each\naggregate against availableStock(product) rather than product.stock. Preserve\nthe existing insufficient_stock AppError behavior while validating each\naggregated product total.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:9009ee9eb38d763609c384c0 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037075",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037075"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037075"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037075/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 10,
+  "original_start_line": 10,
+  "start_side": "RIGHT",
+  "line": 15,
+  "original_line": 15,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 13,
+  "position": 13,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037079",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037079,
+  "node_id": "PRRC_kwDOTweJZM7ecl3X",
+  "diff_hunk": "@@ -13,12 +21,25 @@ export function createOrder(\n   items: OrderItem[],\n   discountCode?: string,\n ): Order {\n-  // TODO: implement in the inventory PR\n-  throw new AppError(\"not_implemented\", \"createOrder is not implemented yet\");\n+  validateOrder(tenantId, items);\n+  for (const item of items) {\n+    const product = getProduct(tenantId, item.productId);\n+    reserveStock(product, item.quantity);\n+  }\n+  return {\n+    id: `ord_${Math.floor(Math.random() * 1e9)}`,\n+    tenantId,\n+    items,\n+    status: \"placed\",\n+    discountCode,\n+  };\n }\n \n /** Human-readable description of the discount applied to an order. */\n export function describeDiscount(order: Order): string {\n-  // TODO: implement in the inventory PR\n-  return \"\";\n+  return order.discountCode!.trim().toUpperCase();\n+}",
+  "path": "src/orders.ts",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🩺 Stability & Availability_ | _🟠 Major_ | _⚡ Quick win_\n\n**Handle orders without a discount code.**\n\n`discountCode` is optional in `Order`. Line 40 throws when `createOrder` receives no third argument. Return an empty description, or another defined fallback, before trimming the code.\n\n```diff\n export function describeDiscount(order: Order): string {\n-  return order.discountCode!.trim().toUpperCase();\n+  return order.discountCode?.trim().toUpperCase() ?? \"\";\n }\n```\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\nexport function describeDiscount(order: Order): string {\n  return order.discountCode?.trim().toUpperCase() ?? \"\";\n}\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/orders.ts` around lines 39 - 41, Update describeDiscount so it checks\nwhether order.discountCode is present before calling trim and toUpperCase.\nReturn the established empty-description or defined fallback for missing codes,\nwhile preserving the current uppercase trimming behavior when a code exists.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:61b5f508cdc2352b6bec08a0 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:57Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037079",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037079"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037079"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037079/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 39,
+  "original_start_line": 39,
+  "start_side": "RIGHT",
+  "line": 41,
+  "original_line": 41,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 42,
+  "position": 42,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037083",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037083,
+  "node_id": "PRRC_kwDOTweJZM7ecl3b",
+  "diff_hunk": "@@ -11,14 +11,35 @@ export interface PriceLine {\n   quantity: number;\n }\n \n+const LEGACY_ENTERPRISE_DISCOUNT = 0.17;\n+\n /** Discount rate (0–1) applied to a tenant's order. */\n export function enterpriseDiscount(tenant: Tenant): number {\n-  // TODO: implement in the inventory PR\n+  if (tenant.tier === \"enterprise\" && tenant.grandfathered) {\n+    return LEGACY_ENTERPRISE_DISCOUNT;\n+  }\n+  if (tenant.tier === \"enterprise\") {\n+    return 0.1;\n+  }\n   return 0;\n }\n \n /** Price an order: subtotal, discount, and final total, all in cents. */\n export function priceOrder(tenant: Tenant, lines: PriceLine[]): PricedOrder {\n-  // TODO: implement in the inventory PR\n-  return { subtotal: 0, discount: 0, total: 0 };\n+  let subtotalDollars = 0;\n+  for (const line of lines) {\n+    subtotalDollars += (line.product.unitPrice / 100) * line.quantity;\n+  }\n+  const discount = enterpriseDiscount(tenant);\n+  const totalDollars = subtotalDollars - subtotalDollars * discount;\n+  const breakdown: any = {\n+    subtotal: subtotalDollars * 100,\n+    discount,\n+    total: totalDollars * 100,\n+  };\n+  return breakdown;\n+}",
+  "path": "src/pricing.ts",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n**Calculate and round in cents.**\n\nLines 31 and 34 use floating-point dollar values. A price such as `199` cents with a 17% discount can return a fractional-cent total. Keep the subtotal in cents and apply the approved rounding rule before returning `total`.\n\n<details>\n<summary>Proposed fix</summary>\n\n```diff\n export function priceOrder(tenant: Tenant, lines: PriceLine[]): PricedOrder {\n-  let subtotalDollars = 0;\n+  let subtotal = 0;\n   for (const line of lines) {\n-    subtotalDollars += (line.product.unitPrice / 100) * line.quantity;\n+    subtotal += line.product.unitPrice * line.quantity;\n   }\n   const discount = enterpriseDiscount(tenant);\n-  const totalDollars = subtotalDollars - subtotalDollars * discount;\n-  const breakdown: any = {\n-    subtotal: subtotalDollars * 100,\n+  const total = Math.round(subtotal * (1 - discount));\n+  return {\n+    subtotal,\n     discount,\n-    total: totalDollars * 100,\n+    total,\n   };\n-  return breakdown;\n }\n```\n</details>\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\n/** Price an order: subtotal, discount, and final total, all in cents. */\nexport function priceOrder(tenant: Tenant, lines: PriceLine[]): PricedOrder {\n  let subtotal = 0;\n  for (const line of lines) {\n    subtotal += line.product.unitPrice * line.quantity;\n  }\n  const discount = enterpriseDiscount(tenant);\n  const total = Math.round(subtotal * (1 - discount));\n  return {\n    subtotal,\n    discount,\n    total,\n  };\n}\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/pricing.ts` around lines 27 - 41, Update priceOrder to accumulate\nsubtotal directly in integer cents from line.product.unitPrice and quantity,\ncalculate the discounted total in cents, and apply the approved rounding rule\nbefore assigning breakdown.total. Remove the intermediate dollar-based\narithmetic while preserving the existing subtotal, discount, and total fields.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:00c586e58ec76da69177020f -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:54Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037083",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037083"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037083"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037083/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 27,
+  "original_start_line": 27,
+  "start_side": "RIGHT",
+  "line": 41,
+  "original_line": 41,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 34,
+  "position": 34,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037090",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037090,
+  "node_id": "PRRC_kwDOTweJZM7ecl3i",
+  "diff_hunk": "@@ -7,6 +9,34 @@ interface InventoryDashboardProps {\n \n /** Dashboard table of a tenant's carrot inventory with reorder badges. */\n export function InventoryDashboard(props: InventoryDashboardProps): JSX.Element {\n-  // TODO: implement in the inventory PR\n-  return <div>Loading inventory…</div>;\n+  const [products, setProducts] = useState<Product[]>([]);\n+\n+  useEffect(() => {\n+    props.fetchProducts(props.tenantId).then(setProducts);\n+  }, [props.tenantId]);",
+  "path": "web/InventoryDashboard.tsx",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🗄️ Data Integrity & Integration_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\nprintf '%s\\n' '--- candidate files ---'\ngit ls-files | rg '(^|/)(InventoryDashboard\\.tsx|.*Inventory.*|.*Product.*)\\b' | head -80\nprintf '%s\\n' '--- component outline ---'\nast-grep outline web/InventoryDashboard.tsx || true\nprintf '%s\\n' '--- component source ---'\ncat -n web/InventoryDashboard.tsx\nprintf '%s\\n' '--- fetchProducts definitions and usages ---'\nrg -n -C 4 'fetchProducts|InventoryDashboard' --glob '!node_modules/**' --glob '!dist/**' .\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 3873\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\nprintf '%s\\n' '--- related source and tests ---'\ngit ls-files | sed -n '1,160p'\nprintf '%s\\n' '--- product type ---'\nrg -n -C 5 'interface Product|type Product' src web\nprintf '%s\\n' '--- fetchProducts references outside the component ---'\nrg -n -C 3 'fetchProducts' --glob '!web/InventoryDashboard.tsx' --glob '!node_modules/**' .\nprintf '%s\\n' '--- project configuration and tests ---'\nfor f in package.json tsconfig.json vite.config.* jest.config.* vitest.config.*; do\n  [ -f \"$f\" ] && { echo \"--- $f\"; cat -n \"$f\"; }\ndone\nprintf '%s\\n' '--- deterministic race model ---'\npython3 - <<'PY'\nfrom dataclasses import dataclass\n\n`@dataclass`\nclass Request:\n    tenant: str\n    result: list\n\nstate = []\ncurrent_tenant = \"tenant-a\"\nold = Request(\"tenant-a\", [\"A\"])\nnew = Request(\"tenant-b\", [\"B\"])\n\n# This models the effect's callback: every settled request calls setProducts,\n# while the effect only starts a request when tenantId changes.\nstate = new.result\nstate = old.result\nassert state == [\"A\"]\nassert current_tenant == \"tenant-b\"\nprint(\"obsolete tenant-a response overwrites tenant-b state: yes\")\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 1034\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\nprintf '%s\\n' '--- related source and tests ---'\ngit ls-files | sed -n '1,160p'\nprintf '%s\\n' '--- product type ---'\nrg -n -C 5 'interface Product|type Product' src web\nprintf '%s\\n' '--- fetchProducts references outside the component ---'\nrg -n -C 3 'fetchProducts' --glob '!web/InventoryDashboard.tsx' --glob '!node_modules/**' .\nprintf '%s\\n' '--- project configuration and tests ---'\nfor f in package.json tsconfig.json vite.config.* jest.config.* vitest.config.*; do\n  [ -f \"$f\" ] && { echo \"--- $f\"; cat -n \"$f\"; }\ndone\nprintf '%s\\n' '--- deterministic race model ---'\npython3 - <<'PY'\nfrom dataclasses import dataclass\n\n`@dataclass`\nclass Request:\n    tenant: str\n    result: list\n\nstate = []\ncurrent_tenant = \"tenant-a\"\nold = Request(\"tenant-a\", [\"A\"])\nnew = Request(\"tenant-b\", [\"B\"])\n\nstate = new.result\nstate = old.result\nassert state == [\"A\"]\nassert current_tenant == \"tenant-b\"\nprint(\"obsolete tenant-a response overwrites tenant-b state: yes\")\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 1034\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\nprintf '%s\\n' '--- package and compiler configuration ---'\ncat -n package.json\ncat -n tsconfig.json\nprintf '%s\\n' '--- complete Product definition ---'\nsed -n '1,80p' src/types.ts\nprintf '%s\\n' '--- deterministic stale-response check ---'\npython3 - <<'PY'\nclass ComponentModel:\n    def __init__(self):\n        self.products = []\n        self.tenant_id = None\n\n    def start_effect(self, tenant_id, fetch):\n        self.tenant_id = tenant_id\n        # Mirrors the component callback: no tenant check occurs on settlement.\n        return lambda: self._set_products(fetch())\n\n    def _set_products(self, products):\n        self.products = products\n\nmodel = ComponentModel()\nresolve_a = model.start_effect(\"tenant-a\", lambda: [\"tenant-a-product\"])\nresolve_b = model.start_effect(\"tenant-b\", lambda: [\"tenant-b-product\"])\n\nresolve_b()\nassert model.tenant_id == \"tenant-b\"\nassert model.products == [\"tenant-b-product\"]\n\nresolve_a()\nassert model.tenant_id == \"tenant-b\"\nassert model.products == [\"tenant-a-product\"]\nprint(\"stale response overwrites current tenant state: yes\")\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 2293\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\nprintf '%s\\n' '--- package and compiler configuration ---'\ncat -n package.json\ncat -n tsconfig.json\nprintf '%s\\n' '--- complete Product definition ---'\nsed -n '1,80p' src/types.ts\nprintf '%s\\n' '--- deterministic stale-response check ---'\npython3 - <<'PY'\nclass ComponentModel:\n    def __init__(self):\n        self.products = []\n        self.tenant_id = None\n\n    def start_effect(self, tenant_id, fetch):\n        self.tenant_id = tenant_id\n        return lambda: self._set_products(fetch())\n\n    def _set_products(self, products):\n        self.products = products\n\nmodel = ComponentModel()\nresolve_a = model.start_effect(\"tenant-a\", lambda: [\"tenant-a-product\"])\nresolve_b = model.start_effect(\"tenant-b\", lambda: [\"tenant-b-product\"])\n\nresolve_b()\nassert model.tenant_id == \"tenant-b\"\nassert model.products == [\"tenant-b-product\"]\n\nresolve_a()\nassert model.tenant_id == \"tenant-b\"\nassert model.products == [\"tenant-a-product\"]\nprint(\"stale response overwrites current tenant state: yes\")\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 2293\n\n---\n\n\n\n</details>\n\n**Ignore obsolete product responses.**\n\nIf `tenantId` changes before an earlier request resolves, the earlier response can replace the current tenant's products. Cancel or ignore obsolete requests. Include `props.fetchProducts` in the dependency list if its identity can change.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/InventoryDashboard.tsx` around lines 14 - 16, Update the useEffect\nproduct-fetching flow to ignore or cancel responses from requests started for a\nprevious tenantId, ensuring stale results cannot call setProducts after the\ntenant changes. Include props.fetchProducts in the dependency list when its\nidentity is not stable, while preserving updates for the current tenant.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:a408a1b590a1226a187df929 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:55Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037090",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037090"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037090"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037090/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 14,
+  "original_start_line": 14,
+  "start_side": "RIGHT",
+  "line": 16,
+  "original_line": 16,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 17,
+  "position": 17,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037099",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037099,
+  "node_id": "PRRC_kwDOTweJZM7ecl3r",
+  "diff_hunk": "@@ -7,6 +9,34 @@ interface InventoryDashboardProps {\n \n /** Dashboard table of a tenant's carrot inventory with reorder badges. */\n export function InventoryDashboard(props: InventoryDashboardProps): JSX.Element {\n-  // TODO: implement in the inventory PR\n-  return <div>Loading inventory…</div>;\n+  const [products, setProducts] = useState<Product[]>([]);\n+\n+  useEffect(() => {\n+    props.fetchProducts(props.tenantId).then(setProducts);\n+  }, [props.tenantId]);\n+\n+  return (\n+    <div>\n+      <h2>Inventory for {props.tenantId}</h2>\n+      <p>Top variety: {products[0].name}</p>",
+  "path": "web/InventoryDashboard.tsx",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🩺 Stability & Availability_ | _🟠 Major_ | _⚡ Quick win_\n\n**Guard the empty product list.**\n\nLine 21 runs before `fetchProducts` resolves because the initial state is `[]`. `products[0]` is `undefined`, so this render throws and prevents the dashboard from loading.\n\n```diff\n-      <p>Top variety: {products[0].name}</p>\n+      <p>Top variety: {products[0]?.name ?? \"None\"}</p>\n```\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\n      <p>Top variety: {products[0]?.name ?? \"None\"}</p>\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/InventoryDashboard.tsx` at line 21, Guard the `products[0].name` access\nin the dashboard render so the initial empty `products` state does not throw\nbefore `fetchProducts` resolves. Render the “Top variety” text only when a first\nproduct exists, while preserving the current display once products are loaded.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:7722a20526b36ab197957700 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:55Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037099",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037099"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037099"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037099/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": null,
+  "original_start_line": null,
+  "start_side": null,
+  "line": 21,
+  "original_line": 21,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 22,
+  "position": 22,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037108",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037108,
+  "node_id": "PRRC_kwDOTweJZM7ecl30",
+  "diff_hunk": "@@ -7,6 +9,34 @@ interface InventoryDashboardProps {\n \n /** Dashboard table of a tenant's carrot inventory with reorder badges. */\n export function InventoryDashboard(props: InventoryDashboardProps): JSX.Element {\n-  // TODO: implement in the inventory PR\n-  return <div>Loading inventory…</div>;\n+  const [products, setProducts] = useState<Product[]>([]);\n+\n+  useEffect(() => {\n+    props.fetchProducts(props.tenantId).then(setProducts);\n+  }, [props.tenantId]);\n+\n+  return (\n+    <div>\n+      <h2>Inventory for {props.tenantId}</h2>\n+      <p>Top variety: {products[0].name}</p>\n+      <table>\n+        <thead>\n+          <tr>\n+            <th>Carrot</th>\n+            <th>Available</th>\n+            <th>Status</th>\n+          </tr>\n+        </thead>\n+        <tbody>\n+          {products.map((product, index) => (\n+            <tr key={index}>\n+              <td dangerouslySetInnerHTML={{ __html: product.name }} />",
+  "path": "web/InventoryDashboard.tsx",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\n# Trace Product.name write paths and fetchProducts implementations.\nast-grep outline src --items all\nast-grep outline web --items all\nrg -n -C 3 --type ts --type tsx \\\n  'fetchProducts|seedProducts|name\\s*:|dangerouslySetInnerHTML' src web\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 1052\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\nprintf '%s\\n' '--- src/inventory.ts ---'\ncat -n src/inventory.ts\nprintf '%s\\n' '--- web/InventoryDashboard.tsx ---'\ncat -n web/InventoryDashboard.tsx\nprintf '%s\\n' '--- Product.name references ---'\nrg -n -C 4 'seedProducts|fetchProducts|Product|name:|dangerouslySetInnerHTML' src web -g '*.ts' -g '*.tsx'\nprintf '%s\\n' '--- package/config files ---'\ngit ls-files | rg '(^|/)(package\\.json|tsconfig[^/]*\\.json|vite\\.config\\..*|webpack\\.config\\..*)$' | xargs -r -n1 sh -c 'echo \"--- $0\"; cat -n \"$0\"'\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 11160\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\nprintf '%s\\n' '--- src/inventory.ts ---'\ncat -n src/inventory.ts\nprintf '%s\\n' '--- web/InventoryDashboard.tsx ---'\ncat -n web/InventoryDashboard.tsx\nprintf '%s\\n' '--- Product.name references ---'\nrg -n -C 4 'seedProducts|fetchProducts|Product|name:|dangerouslySetInnerHTML' src web -g '*.ts' -g '*.tsx'\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 10058\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\npython3 - <<'PY'\nfrom pathlib import Path\nimport re\n\ndashboard = Path(\"web/InventoryDashboard.tsx\").read_text()\ninventory = Path(\"src/inventory.ts\").read_text()\n\nsink = re.search(\n    r\"<td\\s+dangerouslySetInnerHTML=\\{\\{\\s*__html:\\s*product\\.name\\s*\\}\\}\\s*/>\",\n    dashboard,\n)\nreact_child = re.search(r\"<td>\\s*\\{product\\.name\\}\\s*</td>\", dashboard)\nsanitizers = re.findall(r\"(?:sanitize|DOMPurify|escape|purify)\", dashboard + inventory, re.I)\nfetch_impls = re.findall(r\"(?:function\\s+fetchProducts|const\\s+fetchProducts|fetchProducts\\s*=)\", dashboard + inventory)\n\nprint({\n    \"raw_product_name_sink\": bool(sink),\n    \"escaped_react_child_present\": bool(react_child),\n    \"sanitizer_references_in_bounded_files\": sanitizers,\n    \"fetchProducts_implementations_in_bounded_files\": fetch_impls,\n    \"seedProducts_forwards_input_without_name_transform\": bool(\n        re.search(r\"products\\.push\\(\\.\\.\\.seed\\)\", inventory)\n    ),\n})\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 400\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -euo pipefail\n\npython3 - <<'PY'\nfrom pathlib import Path\nimport re\n\ndashboard = Path(\"web/InventoryDashboard.tsx\").read_text()\ninventory = Path(\"src/inventory.ts\").read_text()\n\nprint({\n    \"raw_product_name_sink\": bool(re.search(\n        r\"<td\\s+dangerouslySetInnerHTML=\\{\\{\\s*__html:\\s*product\\.name\\s*\\}\\}\\s*/>\",\n        dashboard,\n    )),\n    \"sanitizer_references\": re.findall(\n        r\"(?:sanitize|DOMPurify|escape|purify)\", dashboard + inventory, re.I\n    ),\n    \"fetchProducts_implementations\": re.findall(\n        r\"(?:function\\s+fetchProducts|const\\s+fetchProducts|fetchProducts\\s*=)\",\n        dashboard + inventory,\n    ),\n    \"seed_forwards_input_unchanged\": \"products.push(...seed)\" in inventory,\n})\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 307\n\n---\n\n\n\n</details>\n\n<!-- cr-reachability -->\n\n**Cross-site Scripting (CWE-79):** Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')\n\n<details>\n<summary>Reachability path</summary>\n\n```\n● Entry\n  web/InventoryDashboard.tsx:11\n  InventoryDashboard\n│\n▼\n● Sink\n  src/inventory.ts\n```\n\n</details>\n\n**Render product names as text, not HTML.**\n\n`product.name` bypasses React escaping, and no sanitization occurs before this sink. If `fetchProducts` returns attacker-controlled markup, it can execute in dashboard viewers' browsers.\n\n<details>\n<summary>Suggested change</summary>\n\n```diff\n-              <td dangerouslySetInnerHTML={{ __html: product.name }} />\n+              <td>{product.name}</td>\n```\n\n</details>\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\n              <td>{product.name}</td>\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🧰 Tools</summary>\n\n<details>\n<summary>🪛 React Doctor (0.9.3)</summary>\n\n[error] 33-33: `dangerouslySetInnerHTML` is an XSS hole that runs attacker-controlled HTML in your users' browsers.\n\nRender trusted content as React children so attacker-controlled HTML cannot run in users' browsers.\n\n(no-danger)\n\n</details>\n\n</details>\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/InventoryDashboard.tsx` at line 33, Update the product-name cell in the\ninventory table to render product.name as normal React text instead of using\ndangerouslySetInnerHTML. Preserve the existing product-name display while\nrelying on React’s escaping for attacker-controlled markup.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:768f4afb2560763fc0ac70ce -->\n\n_Source: Linters/SAST tools_\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:55Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037108",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037108"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037108"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037108/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": null,
+  "original_start_line": null,
+  "start_side": null,
+  "line": 33,
+  "original_line": 33,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 34,
+  "position": 34,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037119",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037119,
+  "node_id": "PRRC_kwDOTweJZM7ecl3_",
+  "diff_hunk": "@@ -7,6 +8,25 @@ interface OrderFormProps {\n \n /** Form for composing and submitting a new carrot order. */\n export function OrderForm(props: OrderFormProps): JSX.Element {\n-  // TODO: implement in the inventory PR\n-  return <form />;\n+  const [items, setItems] = useState<OrderItem[]>([]);\n+  const [discountCode, setDiscountCode] = useState(\"\");\n+\n+  function addLine() {\n+    items.push({ productId: \"prod_demo\", quantity: 1 });\n+    setItems(items);\n+  }",
+  "path": "web/OrderForm.tsx",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\nfile=\"web/OrderForm.tsx\"\nprintf '%s\\n' '--- file outline ---'\nast-grep outline \"$file\" || true\nprintf '%s\\n' '--- relevant source ---'\ncat -n \"$file\"\nprintf '%s\\n' '--- related state and form usage ---'\nrg -n -C 4 'useState|addLine|setItems|onSubmit|<form|items' \"$file\"\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 2552\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\nprintf '%s\\n' '--- package and React versions ---'\nrg -n -C 2 '\"react\"|\"`@types/react`\"|react-dom' package.json package-lock.json yarn.lock pnpm-lock.yaml 2>/dev/null || true\n\nprintf '%s\\n' '--- OrderForm consumers and tests ---'\nrg -n -C 5 'OrderForm|Place order|Add carrot|prod_demo' . \\\n  -g '!node_modules' -g '!dist' -g '!build' \\\n  -g '*.{ts,tsx,js,jsx,json,md}' || true\n\nprintf '%s\\n' '--- OrderItem definition ---'\nrg -n -C 5 'interface OrderItem|type OrderItem' src web\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 3578\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -eu\n\npython3 - <<'PY'\n# Read-only behavioral probe for the state transition in web/OrderForm.tsx.\n# It models React's identity-based bailout: the mutation changes the array\n# contents, but the state value supplied to setItems remains the same object.\nitems = []\nrendered_length = len(items)\n\nitems.append({\"productId\": \"prod_demo\", \"quantity\": 1})\nnext_state = items\nstate_update_bails_out = next_state is items\n\nprint({\n    \"state_update_bails_out_by_identity\": state_update_bails_out,\n    \"mutated_array_length\": len(items),\n    \"last_rendered_length_if_bailed_out\": rendered_length,\n})\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 284\n\n---\n\n🌐 Web query:\n\n`React 18 official documentation state arrays mutation same object setState Object.is bailout`\n\n💡 Result:\n\nIn React, state is treated as read-only (immutable) [1][2]. When you update state using a setter function (such as `setTodos` from `useState`), React uses the `Object.is` comparison algorithm to determine if the new state is different from the previous state [1][3]. If the new value provided is identical to the current state based on `Object.is`, React will \"bail out\" of the update, meaning it will skip re-rendering the component's children and will not fire effects [1][4][3]. Key points regarding this behavior: 1. Mutation and Reference Equality: Arrays and objects in JavaScript are reference types. If you mutate an existing array or object and then pass it back to the state setter, the reference remains the same [5][6]. Because the reference has not changed, `Object.is` returns `true`, and React ignores the update because it believes the state has not changed [1][5][6]. 2. Immutable Updates: To trigger a re-render, you must treat state as immutable by creating a new reference (e.g., a new array or object) [1][2][7]. Common patterns include using the spread operator (`[...arr]`, `{...obj}`) or methods like `map()`, `filter()`, and `slice()` which return new arrays rather than modifying the original [1][2][7]. 3. Understanding Bailouts: While React may skip re-rendering the children when a bailout occurs, it may still call your component function during the render phase to determine if an update is needed [1][3][8]. This behavior ensures consistency, particularly when multiple state updates are queued [9]. In summary, because `Object.is` performs a referential equality check, mutating state directly prevents React from detecting changes, resulting in a bailout [1][5]. You must always replace the state with a new reference to ensure components re-render correctly [1][7].\n\nCitations:\n\n- 1: https://react.dev/reference/react/useState\n- 2: https://react.dev/learn/updating-arrays-in-state\n- 3: https://legacy.reactjs.org/docs/hooks-reference.html\n- 4: https://stackoverflow.com/questions/69996447/react-under-what-conditions-does-setstate-from-the-usestate-hook-cause-a-re-ren\n- 5: https://stackoverflow.com/questions/67127297/react-state-only-updates-when-setting-a-useless-state-variable-along-with-the-ne\n- 6: https://stackoverflow.com/questions/78829524/usestate-react-hook-is-changing-variable-but-not-re-rendering\n- 7: https://react.dev/learn/updating-objects-in-state\n- 8: https://github.com/reactjs/react.dev/issues/5215\n- 9: https://github.com/facebook/react/issues/14810\n\n---\n\n\n\n</details>\n\n**Replace the item array when adding a line.**\n\n`items.push` mutates state and passes the same reference to `setItems`. React can bail out because the reference is unchanged, leaving the item count stale. Use a functional state update.\n\n<details><summary>Suggested change</summary>\n\n```diff\n function addLine() {\n-  items.push({ productId: \"prod_demo\", quantity: 1 });\n-  setItems(items);\n+  setItems((current) => [\n+    ...current,\n+    { productId: \"prod_demo\", quantity: 1 },\n+  ]);\n }\n```\n\n</details>\n\n<!-- suggestion_start -->\n\n<details>\n<summary>📝 Committable suggestion</summary>\n\n> ‼️ **IMPORTANT**\n> Carefully review the code before committing. Ensure that it accurately replaces the highlighted code, contains no missing lines, and has no issues with indentation. Thoroughly test & benchmark the code to ensure it meets the requirements.\n\n```suggestion\n  function addLine() {\n    setItems((current) => [\n      ...current,\n      { productId: \"prod_demo\", quantity: 1 },\n    ]);\n  }\n```\n\n</details>\n\n<!-- suggestion_end -->\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/OrderForm.tsx` around lines 14 - 17, Update addLine to use a functional\nsetItems update that returns a new array containing the existing items and the\nnew line, instead of mutating items with push. Ensure each addition creates a\nnew state reference so React reliably re-renders.\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:c2edb23bc2b1926d1969f871 -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:55Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037119",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037119"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037119"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037119/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": 14,
+  "original_start_line": 14,
+  "start_side": "RIGHT",
+  "line": 17,
+  "original_line": 17,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 17,
+  "position": 17,
+  "subject_type": "line"
+ },
+ {
+  "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037129",
+  "pull_request_review_id": 4878353619,
+  "id": 3732037129,
+  "node_id": "PRRC_kwDOTweJZM7ecl4J",
+  "diff_hunk": "@@ -7,6 +8,25 @@ interface OrderFormProps {\n \n /** Form for composing and submitting a new carrot order. */\n export function OrderForm(props: OrderFormProps): JSX.Element {\n-  // TODO: implement in the inventory PR\n-  return <form />;\n+  const [items, setItems] = useState<OrderItem[]>([]);\n+  const [discountCode, setDiscountCode] = useState(\"\");\n+\n+  function addLine() {\n+    items.push({ productId: \"prod_demo\", quantity: 1 });\n+    setItems(items);\n+  }\n+\n+  return (\n+    <form onSubmit={() => props.onSubmit(items, discountCode)}>",
+  "path": "web/OrderForm.tsx",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "original_commit_id": "9a84b80694becc4364bb02fddcbed077e39578df",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "_🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\n\nprintf '%s\\n' '--- file ---'\ncat -n web/OrderForm.tsx\n\nprintf '%s\\n' '--- form and onSubmit references ---'\nrg -n -C 3 'onSubmit|<form|OrderForm' --glob '!node_modules' --glob '!dist' --glob '!build' .\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 2873\n\n---\n\n🏁 Script executed:\n\n```shell\n#!/bin/bash\nset -e\n\npython3 - <<'PY'\nfrom pathlib import Path\nimport re\n\nsource = Path(\"web/OrderForm.tsx\").read_text()\n\nform = re.search(r\"<form\\b([^>]*)>\", source, re.S)\nhandler = re.search(r'onSubmit=\\{([^}]*)\\}', source, re.S)\nsubmit_button = re.search(r'<button\\s+type=\"submit\">', source)\n\nprint(\"form_found:\", bool(form))\nprint(\"submit_button_found:\", bool(submit_button))\nprint(\"handler_found:\", bool(handler))\nprint(\"handler_calls_preventDefault:\", bool(handler and \"preventDefault\" in handler.group(1)))\nprint(\"handler_calls_props_onSubmit:\", bool(handler and \"props.onSubmit(items, discountCode)\" in handler.group(1)))\nPY\n```\n\nRepository: coderabbitai/testing2-carrotstock\n\nLength of output: 305\n\n---\n\n\n\n</details>\n\n**Prevent native form submission.** The submit handler ignores the event, so the browser can reload the page after `props.onSubmit` runs. Call `event.preventDefault()` before invoking `props.onSubmit`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/OrderForm.tsx` at line 20, Update the form onSubmit handler in OrderForm\nto accept the submit event, call event.preventDefault() first, and then invoke\nprops.onSubmit(items, discountCode).\n```\n\n</details>\n\n<!-- fingerprinting:phantom:poseidon:tapir -->\n\n<!-- cr-indicator-types:potential_issue -->\n\n<!-- cr-comment:v1:627f8f0938b9bd7739b576ff -->\n\n<!-- This is an auto-generated comment by CodeRabbit -->",
+  "created_at": "2026-08-06T21:42:55Z",
+  "updated_at": "2026-08-06T21:42:58Z",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037129",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3",
+  "_links": {
+   "self": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037129"
+   },
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/3#discussion_r3732037129"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/3"
+   }
+  },
+  "reactions": {
+   "url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/comments/3732037129/reactions",
+   "total_count": 0,
+   "+1": 0,
+   "-1": 0,
+   "laugh": 0,
+   "hooray": 0,
+   "confused": 0,
+   "heart": 0,
+   "rocket": 0,
+   "eyes": 0
+  },
+  "start_line": null,
+  "original_start_line": null,
+  "start_side": null,
+  "line": 20,
+  "original_line": 20,
+  "side": "RIGHT",
+  "author_association": "NONE",
+  "original_position": 20,
+  "position": 20,
+  "subject_type": "line"
+ }
+]

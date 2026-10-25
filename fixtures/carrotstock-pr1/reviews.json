@@ -1,0 +1,162 @@
+[
+ {
+  "id": 4878252667,
+  "node_id": "PRR_kwDOTweJZM8AAAABIsQ6ew",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "**Actionable comments posted: 11**\n\n<details>\n<summary>🤖 Prompt for all review comments with AI agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nInline comments:\nIn `@services/pricing_sync.py`:\n- Around line 14-16: Remove BILLING_API_KEY from the logger.info call in the\npricing sync flow, logging only the tenant identifier and sync status. Eliminate\nthe hard-coded credential from pricing_sync.py, rotate the exposed key, and load\nthe replacement through the project’s secret-managed configuration mechanism.\n\nIn `@services/reorder_report.py`:\n- Line 11: Update build_report to use None as the seen default, then initialize\na new list inside the function when seen is not provided, while preserving any\ncaller-supplied list.\n\nIn `@src/inventory.ts`:\n- Around line 28-29: Update checkReorder to treat stock equal to\nproduct.reorderThreshold as requiring reorder by changing the strict comparison\nto an inclusive boundary, while preserving the existing behavior for stock below\nand above the threshold.\n- Around line 14-19: Update getProduct to require both productId and tenantId\nwhen searching products, matching p.id and p.tenantId in the find predicate\nbefore returning the product; preserve the existing not-found error behavior.\n\nIn `@src/orders.ts`:\n- Around line 10-14: Update the order validation around the items loop to reject\nnon-integer or non-positive quantities, aggregate quantities by product ID so\nduplicate lines are combined, and compare each aggregate against\navailableStock(product) rather than product.stock. Perform these validations\nbefore calling reserveStock, preserving the existing insufficient_stock error\nbehavior.\n- Around line 39-41: Update describeDiscount to safely handle orders whose\noptional discountCode is absent, returning the established defined no-discount\ndescription instead of calling trim on undefined; preserve the existing trim and\nuppercase behavior when a code is present, or explicitly change the function’s\nreturn type only if absence is represented by an allowed value.\n\nIn `@src/pricing.ts`:\n- Around line 29-40: Update the pricing calculation around subtotalDollars and\ntotalDollars to keep all monetary values in integer cents: accumulate each line\nas unitPrice * quantity without dividing by 100, then apply the selected\nbusiness rounding rule once to the discounted cent total. Preserve the breakdown\nfields and ensure subtotal and total remain cent values.\n\nIn `@web/InventoryDashboard.tsx`:\n- Line 21: Guard the products display in InventoryDashboard so the initial empty\nproducts array does not access products[0].name. Render the “Top variety” text\nonly when a first product exists, while preserving the current product-name\noutput once fetchProducts populates the list.\n- Line 33: Update the table cell rendering in the product row to render\nproduct.name as normal text instead of using dangerouslySetInnerHTML, while\npreserving the existing displayed value.\n\nIn `@web/OrderForm.tsx`:\n- Around line 14-17: Update addLine so adding a line does not mutate the\nexisting items state array; create and pass a new array containing the current\nitems and the new line to setItems, preserving the existing item values and\nnew-line defaults.\n- Line 20: Update the form submit handler in OrderForm to receive the submit\nevent, call preventDefault(), and then invoke props.onSubmit with items and\ndiscountCode so the browser does not perform a native submission.\n```\n\n</details>\n\n<details>\n<summary>🪄 Autofix</summary>\n\nFix all unresolved CodeRabbit comments on this PR:\n\n- [ ] <!-- {\"checkboxId\": \"4b0d0e0a-96d7-4f10-b296-3a18ea78f0b9\"} --> Push a commit to this branch (recommended)\n- [ ] <!-- {\"checkboxId\": \"ff5b1114-7d8c-49e6-8ac1-43f82af23a33\"} --> Create a new PR with the fixes\n\n</details>\n\n---\n\n<details>\n<summary>ℹ️ Review info</summary>\n\n<details>\n<summary>⚙️ Run configuration</summary>\n\n**Configuration used**: Path: .coderabbit.yaml\n\n**Review profile**: CHILL\n\n**Plan**: Enterprise\n\n**Run ID**: `4029756f-6e44-4d1d-9af3-82fd884ef802`\n\n</details>\n\n<details>\n<summary>📥 Commits</summary>\n\nReviewing files that changed from the base of the PR and between 7f9cb6c536d8c80e7ec46886c762a7be47ccff87 and 9a84b80694becc4364bb02fddcbed077e39578df.\n\n</details>\n\n<details>\n<summary>📒 Files selected for processing (7)</summary>\n\n* `services/pricing_sync.py`\n* `services/reorder_report.py`\n* `src/inventory.ts`\n* `src/orders.ts`\n* `src/pricing.ts`\n* `web/InventoryDashboard.tsx`\n* `web/OrderForm.tsx`\n\n</details>\n\n</details>\n\n<!-- This is an auto-generated comment by CodeRabbit for review status -->",
+  "state": "COMMENTED",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878252667",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1",
+  "author_association": "NONE",
+  "_links": {
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878252667"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1"
+   }
+  },
+  "submitted_at": "2026-08-06T21:18:27Z",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df"
+ },
+ {
+  "id": 4878283083,
+  "node_id": "PRR_kwDOTweJZM8AAAABIsSxSw",
+  "user": {
+   "login": "chris-coderabbit",
+   "id": 272607989,
+   "node_id": "U_kgDOED-q9Q",
+   "avatar_url": "https://avatars.githubusercontent.com/u/272607989?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/chris-coderabbit",
+   "html_url": "https://github.com/chris-coderabbit",
+   "followers_url": "https://api.github.com/users/chris-coderabbit/followers",
+   "following_url": "https://api.github.com/users/chris-coderabbit/following{/other_user}",
+   "gists_url": "https://api.github.com/users/chris-coderabbit/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/chris-coderabbit/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/chris-coderabbit/subscriptions",
+   "organizations_url": "https://api.github.com/users/chris-coderabbit/orgs",
+   "repos_url": "https://api.github.com/users/chris-coderabbit/repos",
+   "events_url": "https://api.github.com/users/chris-coderabbit/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/chris-coderabbit/received_events",
+   "type": "User",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "",
+  "state": "COMMENTED",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878283083",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1",
+  "author_association": "COLLABORATOR",
+  "_links": {
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878283083"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1"
+   }
+  },
+  "submitted_at": "2026-08-06T21:25:24Z",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df"
+ },
+ {
+  "id": 4878284179,
+  "node_id": "PRR_kwDOTweJZM8AAAABIsS1kw",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "",
+  "state": "COMMENTED",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878284179",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1",
+  "author_association": "NONE",
+  "_links": {
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878284179"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1"
+   }
+  },
+  "submitted_at": "2026-08-06T21:25:39Z",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df"
+ },
+ {
+  "id": 4878304680,
+  "node_id": "PRR_kwDOTweJZM8AAAABIsUFqA",
+  "user": {
+   "login": "coderabbitai[bot]",
+   "id": 136622811,
+   "node_id": "BOT_kgDOCCSy2w",
+   "avatar_url": "https://avatars.githubusercontent.com/in/347564?v=4",
+   "gravatar_id": "",
+   "url": "https://api.github.com/users/coderabbitai%5Bbot%5D",
+   "html_url": "https://github.com/apps/coderabbitai",
+   "followers_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/followers",
+   "following_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/following{/other_user}",
+   "gists_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/gists{/gist_id}",
+   "starred_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/starred{/owner}{/repo}",
+   "subscriptions_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/subscriptions",
+   "organizations_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/orgs",
+   "repos_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/repos",
+   "events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/events{/privacy}",
+   "received_events_url": "https://api.github.com/users/coderabbitai%5Bbot%5D/received_events",
+   "type": "Bot",
+   "user_view_type": "public",
+   "site_admin": false
+  },
+  "body": "**Actionable comments posted: 2**\n\n<details>\n<summary>♻️ Duplicate comments (10)</summary><blockquote>\n\n<details>\n<summary>services/reorder_report.py (1)</summary><blockquote>\n\n`11-11`: _🩺 Stability & Availability_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Create `seen` for each report call.**\n\nThe default list persists between calls. Earlier report state can affect later reports. Use `seen=None` and initialize a new list inside the function.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/reorder_report.py` at line 11, Update build_report to use None as\nthe default for seen, then initialize a new empty list inside the function when\nseen is None so report state is isolated between calls.\n```\n\n</details>\n\n<!-- cr-comment:v1:0e79b143f6b9e1c80997b2aa -->\n\n</blockquote></details>\n<details>\n<summary>src/inventory.ts (2)</summary><blockquote>\n\n`14-19`: _🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<!-- cr-reachability -->\n\n**Authorization Bypass (CWE-862):** Missing Authorization\n\n<details>\n<summary>Reachability path</summary>\n\n```\n● Entry\n  web/InventoryDashboard.tsx:11\n  InventoryDashboard\n│\n▼\n● Sink\n  src/inventory.ts\n```\n\n</details>\n\n**Scope the lookup to the requested tenant.**\n\nLine 15 matches only `productId`. If a caller supplies another tenant’s product ID, `createOrder` can reserve that tenant’s product under the caller’s tenant ID. Match both `p.id` and `p.tenantId` before returning the product.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/inventory.ts` around lines 14 - 19, Update getProduct to filter products\nby both productId and tenantId in the products.find predicate, ensuring only the\nrequested tenant’s product is returned while preserving the existing not-found\nerror behavior.\n```\n\n</details>\n\n<!-- cr-comment:v1:5e661482b73a0b9eb9e05400 -->\n\n---\n\n`28-30`: _🎯 Functional Correctness_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Include the reorder threshold boundary.**\n\nLine 29 returns `false` when available stock equals `reorderThreshold`, despite the function contract saying “at or below.” Use `<=`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/inventory.ts` around lines 28 - 30, Update checkReorder to use an\ninclusive comparison against product.reorderThreshold, so it returns true when\navailableStock(product) is equal to or below the threshold.\n```\n\n</details>\n\n<!-- cr-comment:v1:7e473d2434c653a243f66160 -->\n\n</blockquote></details>\n<details>\n<summary>web/InventoryDashboard.tsx (2)</summary><blockquote>\n\n`33-33`: _🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<!-- cr-reachability -->\n\n**XSS (CWE-79):** Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')\n\n<details>\n<summary>Reachability path</summary>\n\n```\n● Entry\n  web/InventoryDashboard.tsx:11\n  InventoryDashboard\n│\n▼\n● Sink\n  src/inventory.ts\n```\n\n</details>\n\n**Render `product.name` as text.**\n\nLine 33 parses the dynamic product name as HTML. If a product name contains active markup, it can execute in the user’s browser. Replace `dangerouslySetInnerHTML` with `{product.name}`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/InventoryDashboard.tsx` at line 33, Update the product-name cell in the\ninventory rendering to output product.name as normal JSX text instead of using\ndangerouslySetInnerHTML, preserving the existing table structure and displayed\nvalue.\n```\n\n</details>\n\n<!-- cr-comment:v1:20cbf71c9c089affb210e85e -->\n\n_Source: Linters/SAST tools_\n\n---\n\n`21-21`: _🩺 Stability & Availability_ | _🟠 Major_ | _⚡ Quick win_\n\n**Handle the initial empty product list.**\n\nThe initial state is `[]`. Line 21 reads `products[0].name` before `fetchProducts` resolves and throws. Guard the first element or render a placeholder.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/InventoryDashboard.tsx` at line 21, Update the product summary rendering\nin InventoryDashboard so it safely handles the initial empty products array\nbefore fetchProducts resolves. Guard access to products[0].name and render an\nappropriate placeholder when no product exists, while preserving the current\nname display when the list is populated.\n```\n\n</details>\n\n<!-- cr-comment:v1:819b6163b9847f3304fccecd -->\n\n</blockquote></details>\n<details>\n<summary>src/orders.ts (1)</summary><blockquote>\n\n`39-41`: _🩺 Stability & Availability_ | _🟠 Major_ | _⚡ Quick win_\n\n**Handle orders without a discount code.**\n\n`Order.discountCode` is optional. `createOrder` can return an order without it. Line 40 then calls `trim()` on `undefined` and throws. Return a defined no-discount description when the code is absent.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/orders.ts` around lines 39 - 41, Update describeDiscount to handle an\nabsent order.discountCode before calling trim or toUpperCase. Return the\nestablished defined no-discount description when the code is missing, while\npreserving the current formatting for present discount codes.\n```\n\n</details>\n\n<!-- cr-comment:v1:179aa16cf2668011e43980a8 -->\n\n</blockquote></details>\n<details>\n<summary>web/OrderForm.tsx (2)</summary><blockquote>\n\n`14-17`: _🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n**Create a new state array when adding a line.**\n\nLines 15-16 mutate the current state array and pass the same reference to `setItems`. React can skip the update. Use a functional update that returns a new array.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/OrderForm.tsx` around lines 14 - 17, Update addLine to use a functional\nsetItems update that returns a new array containing the existing items and the\nnew line, rather than mutating items or passing the same array reference.\n```\n\n</details>\n\n<!-- cr-comment:v1:967b72dd8536e5eb4c45bda6 -->\n\n---\n\n`20-20`: _🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n**Prevent native form submission.**\n\nLine 20 invokes `onSubmit` without calling `preventDefault()`. The browser can then submit and reload the page. Accept the submit event, prevent its default action, then call `props.onSubmit`.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@web/OrderForm.tsx` at line 20, Update the form onSubmit handler in OrderForm\nto accept the submit event, call preventDefault(), and then invoke\nprops.onSubmit with items and discountCode so the browser does not perform a\nnative submission.\n```\n\n</details>\n\n<!-- cr-comment:v1:caf4d80c760b8cdbbdbd8bfe -->\n\n</blockquote></details>\n<details>\n<summary>services/pricing_sync.py (1)</summary><blockquote>\n\n`7-16`: _🔒 Security & Privacy_ | _🟠 Major_ | _⚡ Quick win_\n\n<!-- cr-reachability -->\n\n**Sensitive Data Exposure (CWE-532):** Insertion of Sensitive Information into Log File\n\n**Remove and rotate the exposed billing credential.**\n\nLine 7 commits a live-format billing credential. Line 15 also writes it to logs. Load a rotated credential from secret-managed configuration and log only the tenant ID and sync result.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@services/pricing_sync.py` around lines 7 - 16, Remove the hardcoded\nBILLING_API_KEY from the module and load the rotated credential through the\nexisting secret-managed configuration mechanism, passing it only to the billing\nAPI. Update sync_enterprise_pricing so its logger call excludes the credential\nand reports only the tenant ID and synchronization result.\n```\n\n</details>\n\n<!-- cr-comment:v1:45fd0140745551b273676b86 -->\n\n_Source: Linters/SAST tools_\n\n</blockquote></details>\n<details>\n<summary>src/pricing.ts (1)</summary><blockquote>\n\n`29-40`: _🎯 Functional Correctness_ | _🟠 Major_ | _⚡ Quick win_\n\n**Keep monetary values in integer cents.**\n\nLines 31 and 34 calculate in floating-point dollars. A discounted order can return a fractional-cent `total`, which violates the `Money` contract. Accumulate `unitPrice * quantity` in cents and apply the selected rounding rule once to the discounted cent total.\n\n<details>\n<summary>🤖 Prompt for AI Agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nIn `@src/pricing.ts` around lines 29 - 40, Update the pricing calculation around\nsubtotalDollars and totalDollars to keep all monetary arithmetic in integer\ncents: accumulate each line as unitPrice * quantity, then apply the selected\nrounding rule once to the discounted cent subtotal before assigning\nbreakdown.total. Preserve discount as the rate and ensure breakdown.subtotal and\nbreakdown.total satisfy the Money integer-cent contract.\n```\n\n</details>\n\n<!-- cr-comment:v1:dd8e8d5dc41e45fb4c8aa8ab -->\n\n</blockquote></details>\n\n</blockquote></details>\n\n<details>\n<summary>🤖 Prompt for all review comments with AI agents</summary>\n\n```\nVerify each finding against current code. Fix only still-valid issues, skip the\nrest with a brief reason, keep changes minimal, and validate.\n\nInline comments:\nIn `@services/reorder_report.py`:\n- Around line 14-16: Update the query execution in build_report to replace\nstring interpolation of tenant_id with a bound parameter, using the database\ndriver’s parameter placeholder and passing tenant_id separately to\ncursor.execute. Preserve the selected columns and tenant filter behavior while\nensuring tenant_id cannot alter the SQL statement.\n\nIn `@src/orders.ts`:\n- Around line 10-14: Update src/orders.ts lines 10-14 in createOrder to reject\nnon-finite or non-positive item.quantity values before the existing stock\nvalidation, preserving the on-hand stock check. Update src/inventory.ts lines\n33-35 in reserveStock to enforce the same finite-positive quantity invariant\nbefore modifying product.reserved.\n\n---\n\nDuplicate comments:\nIn `@services/pricing_sync.py`:\n- Around line 7-16: Remove the hardcoded BILLING_API_KEY from the module and\nload the rotated credential through the existing secret-managed configuration\nmechanism, passing it only to the billing API. Update sync_enterprise_pricing so\nits logger call excludes the credential and reports only the tenant ID and\nsynchronization result.\n\nIn `@services/reorder_report.py`:\n- Line 11: Update build_report to use None as the default for seen, then\ninitialize a new empty list inside the function when seen is None so report\nstate is isolated between calls.\n\nIn `@src/inventory.ts`:\n- Around line 14-19: Update getProduct to filter products by both productId and\ntenantId in the products.find predicate, ensuring only the requested tenant’s\nproduct is returned while preserving the existing not-found error behavior.\n- Around line 28-30: Update checkReorder to use an inclusive comparison against\nproduct.reorderThreshold, so it returns true when availableStock(product) is\nequal to or below the threshold.\n\nIn `@src/orders.ts`:\n- Around line 39-41: Update describeDiscount to handle an absent\norder.discountCode before calling trim or toUpperCase. Return the established\ndefined no-discount description when the code is missing, while preserving the\ncurrent formatting for present discount codes.\n\nIn `@src/pricing.ts`:\n- Around line 29-40: Update the pricing calculation around subtotalDollars and\ntotalDollars to keep all monetary arithmetic in integer cents: accumulate each\nline as unitPrice * quantity, then apply the selected rounding rule once to the\ndiscounted cent subtotal before assigning breakdown.total. Preserve discount as\nthe rate and ensure breakdown.subtotal and breakdown.total satisfy the Money\ninteger-cent contract.\n\nIn `@web/InventoryDashboard.tsx`:\n- Line 33: Update the product-name cell in the inventory rendering to output\nproduct.name as normal JSX text instead of using dangerouslySetInnerHTML,\npreserving the existing table structure and displayed value.\n- Line 21: Update the product summary rendering in InventoryDashboard so it\nsafely handles the initial empty products array before fetchProducts resolves.\nGuard access to products[0].name and render an appropriate placeholder when no\nproduct exists, while preserving the current name display when the list is\npopulated.\n\nIn `@web/OrderForm.tsx`:\n- Around line 14-17: Update addLine to use a functional setItems update that\nreturns a new array containing the existing items and the new line, rather than\nmutating items or passing the same array reference.\n- Line 20: Update the form onSubmit handler in OrderForm to accept the submit\nevent, call preventDefault(), and then invoke props.onSubmit with items and\ndiscountCode so the browser does not perform a native submission.\n```\n\n</details>\n\n<details>\n<summary>🪄 Autofix</summary>\n\nFix all unresolved CodeRabbit comments on this PR:\n\n- [ ] <!-- {\"checkboxId\": \"4b0d0e0a-96d7-4f10-b296-3a18ea78f0b9\"} --> Push a commit to this branch (recommended)\n- [ ] <!-- {\"checkboxId\": \"ff5b1114-7d8c-49e6-8ac1-43f82af23a33\"} --> Create a new PR with the fixes\n\n</details>\n\n---\n\n<details>\n<summary>ℹ️ Review info</summary>\n\n<details>\n<summary>⚙️ Run configuration</summary>\n\n**Configuration used**: Path: .coderabbit.yaml\n\n**Review profile**: CHILL\n\n**Plan**: Enterprise\n\n**Run ID**: `1b714d37-f534-439c-868c-efc987e5a8ac`\n\n</details>\n\n<details>\n<summary>📥 Commits</summary>\n\nReviewing files that changed from the base of the PR and between 7f9cb6c536d8c80e7ec46886c762a7be47ccff87 and 9a84b80694becc4364bb02fddcbed077e39578df.\n\n</details>\n\n<details>\n<summary>📒 Files selected for processing (7)</summary>\n\n* `services/pricing_sync.py`\n* `services/reorder_report.py`\n* `src/inventory.ts`\n* `src/orders.ts`\n* `src/pricing.ts`\n* `web/InventoryDashboard.tsx`\n* `web/OrderForm.tsx`\n\n</details>\n\n</details>\n\n<!-- This is an auto-generated comment by CodeRabbit for review status -->",
+  "state": "COMMENTED",
+  "html_url": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878304680",
+  "pull_request_url": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1",
+  "author_association": "NONE",
+  "_links": {
+   "html": {
+    "href": "https://github.com/coderabbitai/testing2-carrotstock/pull/1#pullrequestreview-4878304680"
+   },
+   "pull_request": {
+    "href": "https://api.github.com/repos/coderabbitai/testing2-carrotstock/pulls/1"
+   }
+  },
+  "submitted_at": "2026-08-06T21:30:37Z",
+  "commit_id": "9a84b80694becc4364bb02fddcbed077e39578df"
+ }
+]

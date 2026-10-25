@@ -1,0 +1,278 @@
+# Answer key for coderabbitai/testing2-carrotstock, branch-a (commit 9a84b80).
+#
+# CarrotStock is the bug-seeded practice repo for the CodeRabbit Certification
+# course. The repo does not publish a list of its seeded bugs, so this key was
+# written by reading branch-a and WALKTHROUGH.md:
+#   basis = "walkthrough"  the walkthrough names this issue or lesson
+#   basis = "code"         read off the code; seeded = false means it looks
+#                          incidental (a real issue, probably not planted)
+#
+# kind:
+#   bug          a defect the default review should report
+#   intentional  looks like a bug, but the team says it is by design (lesson 3);
+#                flagged in the first review, then suppressed by a learning
+#   convention   only expected once the lesson 4 path_instructions are active
+#   standard     only expected once CodeRabbit.md is a knowledge base (lesson 5)
+#
+# A finding matches an issue when it is on the same path, does not match
+# `exclude`, and either sits within `slop` lines of `lines` with text matching
+# `match`, or (one comment often bundles several issues) its text anywhere in
+# the file matches the narrower `mention`.
+
+[meta]
+name = "carrotstock"
+repo = "coderabbitai/testing2-carrotstock"
+branch = "branch-a"
+commit = "9a84b80694becc4364bb02fddcbed077e39578df"
+slop = 3
+
+# ---- seeded bugs ---------------------------------------------------------
+
+[[issue]]
+id = "tenant-scope"
+kind = "bug"
+severity = "major"
+path = "src/inventory.ts"
+lines = [14, 19]
+match = 'tenant'
+summary = "getProduct ignores tenantId, so one tenant can read and reserve another tenant's product"
+
+[[issue]]
+id = "reorder-boundary"
+kind = "bug"
+severity = "minor"
+path = "src/inventory.ts"
+lines = [28, 30]
+match = 'threshold|<=|at or below|boundary'
+summary = "checkReorder uses < but its doc says 'to or below' the threshold"
+
+[[issue]]
+id = "discount-crash"
+kind = "bug"
+severity = "major"
+path = "src/orders.ts"
+lines = [39, 41]
+match = 'discount ?code'
+summary = "describeDiscount calls trim() on an optional discountCode via a non-null assertion"
+
+[[issue]]
+id = "float-money"
+kind = "bug"
+severity = "major"
+path = "src/pricing.ts"
+lines = [29, 40]
+match = 'cents?\b|floating|rounding'
+summary = "priceOrder converts integer cents to float dollars, so totals can have fractional cents"
+
+[[issue]]
+id = "empty-list-crash"
+kind = "bug"
+severity = "major"
+path = "web/InventoryDashboard.tsx"
+lines = [21, 21]
+match = 'products\[0\]|empty'
+summary = "first render reads products[0].name before the fetch resolves"
+
+[[issue]]
+id = "xss"
+kind = "bug"
+severity = "critical"
+basis = "walkthrough"
+path = "web/InventoryDashboard.tsx"
+lines = [33, 33]
+match = 'dangerouslySetInnerHTML|cross-site|xss|CWE-79'
+summary = "product.name rendered with dangerouslySetInnerHTML"
+
+[[issue]]
+id = "state-mutation"
+kind = "bug"
+severity = "major"
+path = "web/OrderForm.tsx"
+lines = [14, 17]
+match = 'mutat|items\.push|new (state )?array|same reference'
+summary = "addLine pushes into the state array and passes the same reference to setItems"
+
+[[issue]]
+id = "no-prevent-default"
+kind = "bug"
+severity = "major"
+path = "web/OrderForm.tsx"
+lines = [20, 20]
+match = 'preventDefault'
+mention = 'preventDefault'
+summary = "form onSubmit never calls preventDefault, so the page reloads"
+
+[[issue]]
+id = "mutable-default"
+kind = "bug"
+severity = "minor"
+path = "services/reorder_report.py"
+lines = [11, 11]
+match = '\bseen\b|mutable default'
+summary = "build_report(seen=[]) shares one list across every call"
+
+[[issue]]
+id = "sql-injection"
+kind = "bug"
+severity = "critical"
+basis = "walkthrough"
+path = "services/reorder_report.py"
+lines = [14, 16]
+match = '\bsql\b|inject|CWE-89'
+mention = '\bSQL\b|CWE-89'
+summary = "tenant_id interpolated into the SQL string with an f-string"
+
+[[issue]]
+id = "swallowed-errors"
+kind = "bug"
+severity = "major"
+path = "services/reorder_report.py"
+lines = [6, 25]
+match = 'except|KeyError|suppress|swallow|silently'
+summary = "lookup_threshold raises KeyError for most products and 'except Exception: pass' drops them from the report"
+
+[[issue]]
+id = "hardcoded-secret"
+kind = "bug"
+severity = "critical"
+basis = "walkthrough"
+path = "services/pricing_sync.py"
+lines = [7, 7]
+match = 'hard-?coded|rotate|CWE-798'
+mention = 'hard-?coded'
+summary = "live billing API key committed in source"
+
+[[issue]]
+id = "secret-in-logs"
+kind = "bug"
+severity = "major"
+path = "services/pricing_sync.py"
+lines = [14, 16]
+match = '\blog'
+summary = "logger.info writes the billing API key to logs"
+
+# ---- incidental (real, probably not planted) ------------------------------
+
+[[issue]]
+id = "stale-fetch"
+kind = "bug"
+seeded = false
+severity = "minor"
+path = "web/InventoryDashboard.tsx"
+lines = [14, 16]
+match = 'obsolete|stale|reject|dependenc|race'
+summary = "useEffect has no rejection handling and can apply an old tenant's response"
+
+[[issue]]
+id = "bad-quantity"
+kind = "bug"
+seeded = false
+severity = "minor"
+path = "src/orders.ts"
+lines = [10, 14]
+match = 'non-positive|negative|positive|NaN|non-integer'
+summary = "zero, negative or NaN quantities pass validation and corrupt reserved"
+
+[[issue]]
+id = "index-key"
+kind = "bug"
+seeded = false
+severity = "trivial"
+path = "web/InventoryDashboard.tsx"
+lines = [32, 32]
+match = 'key=\{?index|array index|as (a |the )?key'
+summary = "table rows keyed by array index"
+
+[[issue]]
+id = "weak-order-id"
+kind = "bug"
+seeded = false
+severity = "minor"
+path = "src/orders.ts"
+lines = [30, 30]
+match = 'Math\.random|collision|unique id|uuid'
+summary = "order ids come from Math.random, so two orders can collide"
+
+# ---- lesson 3: intentional design ------------------------------------------
+
+[[issue]]
+id = "oversell"
+kind = "intentional"
+basis = "walkthrough"
+path = "src/orders.ts"
+lines = [10, 15]
+match = 'reserved|available stock|availableStock|on-hand|oversell|sellable'
+exclude = 'intentional'
+summary = "validateOrder checks on-hand stock, not available stock. By design: reservations are soft holds"
+
+# ---- lesson 4: path_instructions for **/*.ts -------------------------------
+
+[[issue]]
+id = "conv-any"
+kind = "convention"
+basis = "walkthrough"
+path = "src/pricing.ts"
+lines = [35, 35]
+match = '`any`|\bany\b type|: any\b'
+summary = "breakdown typed as any"
+
+[[issue]]
+id = "conv-return-orders"
+kind = "convention"
+basis = "walkthrough"
+path = "src/orders.ts"
+lines = [43, 43]
+match = 'explicit return type|return type annotation|missing (an? )?return type'
+summary = "exported summarizeOrder has no return type"
+
+[[issue]]
+id = "conv-return-pricing"
+kind = "convention"
+basis = "walkthrough"
+path = "src/pricing.ts"
+lines = [43, 43]
+match = 'explicit return type|return type annotation|missing (an? )?return type'
+summary = "exported formatRate has no return type"
+
+[[issue]]
+id = "conv-non-null"
+kind = "convention"
+basis = "walkthrough"
+path = "src/inventory.ts"
+lines = [44, 44]
+match = 'non-null|assertion|`!`'
+summary = "lowStockLabel uses a non-null assertion on an optional field"
+
+# ---- lesson 5: CodeRabbit.md as a knowledge base ---------------------------
+
+[[issue]]
+id = "bare-error"
+kind = "standard"
+basis = "walkthrough"
+path = "src/orders.ts"
+lines = [8, 8]
+match = 'AppError|bare `?Error|typed error'
+summary = "validateOrder throws a bare Error instead of AppError"
+
+# ---- profiles: what each lesson expects from the review ---------------------
+
+[profiles.lesson2]
+description = "First review of branch-a: the bugs show up, config-only findings do not"
+config = "repo"
+must_flag = ["xss", "sql-injection", "hardcoded-secret", "tenant-scope", "oversell"]
+must_not_flag = ["conv-any", "conv-return-orders", "conv-return-pricing", "conv-non-null", "bare-error"]
+
+[profiles.after-learning]
+description = "Any review after the lesson 3 learning: the on-hand stock check is no longer flagged"
+must_not_flag = ["oversell"]
+
+[profiles.lesson4]
+description = "branch-b with the **/*.ts path_instructions: convention findings appear on the first pass"
+config = "repo"
+must_flag = ["conv-any", "conv-return-orders", "conv-return-pricing", "conv-non-null"]
+must_not_flag = ["oversell"]
+
+[profiles.lesson5]
+description = "branch-b with CodeRabbit.md as a knowledge base: the bare Error is flagged"
+config = "repo"
+must_flag = ["bare-error"]
